@@ -7,9 +7,12 @@ class PacketIdentifier{
         this.kSelf = 4;
         this.kPing = 5;
         this.kInteraction = 6;
-        this.kHitLocation = 7;
+        this.kCollision = 7;
         this.kInGame = 8;
         this.kLeftGame = 9;
+        this.kObjective = 10;
+        this.kAddSegment = 11;
+        this.kDirection = 12;
     }
 }
 /*

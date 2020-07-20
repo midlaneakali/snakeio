@@ -13,24 +13,32 @@
     changedirection(e){
       if(e.key=="ArrowRight"){
         if(this.self.getsegmenthead().direction != 0){
+          
+          networksend({PacketId:identifiers.kDirection,Direction:0});
           this.self.getsegmenthead().direction = 0;
         }
       }else if(e.key=="ArrowDown"){
         if(this.self.getsegmenthead().direction != 1){
+          
+          networksend({PacketId:identifiers.kDirection,Direction:1});
           this.self.getsegmenthead().direction = 1;
         }
       }
       else if(e.key=="ArrowLeft"){
         if(this.self.getsegmenthead().direction != 2){
+          
+          networksend({PacketId:identifiers.kDirection,Direction:2});
           this.self.getsegmenthead().direction = 2;
         }
       }
       else if(e.key=="ArrowUp"){
         if(this.self.getsegmenthead().direction != 3){
+          
+          networksend({PacketId:identifiers.kDirection,Direction:3});
           this.self.getsegmenthead().direction = 3;
         }
       }else if(e.which == 32){
-        this.self.pushsegment();
+        networksend({PacketId: identifiers.kAddSegment});
       }
     }
     insertplayer(packet){
@@ -90,4 +98,27 @@
         }
       }
   }
+  addsegment(packet){
+    for(let index = 0; index < this.players.length;++index){
+      let target = this.players[index];
+      if(packet.PlayerId  == target.playerid){
+        
+        for(let e of packet.Positions){
+          target.addsegment(e.XPosition,e.YPosition,e.Direction);
+
+        }
+        break;
+      }
+    }
   }
+  setdirection(packet){
+    for(let index = 0; index < this.players.length;++index){
+      let target = this.players[index];
+      if(packet.PlayerId  == target.playerid){
+        target.getsegmenthead().direction = packet.Direction;
+        break;
+      }
+      
+    }
+  }
+}

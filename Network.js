@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', (event) => {
+
     let ws = new WebSocket("ws://jdragon.me:8080");
     let identifiers = new PacketIdentifier();
     var g;
@@ -13,9 +13,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
         
         packethandler(packet);
     }
+    function networksend(packet){
+        ws.send(JSON.stringify(packet));
+    }
     function packethandler(jsonpacket){
         let packet = JSON.parse(jsonpacket);
-        console.log(packet);
+       //
         switch(packet.PacketId){
             case identifiers.kSelf:{
                 g = new Game(packet.PlayerId);
@@ -50,6 +53,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                // g.self.body[0].ypos = packet.Positions[0].YPosition;
                g.interpolateplayerposition(packet);
             }
+            break;
+            case identifiers.kAddSegment:{
+                g.addsegment(packet);
+            }
+            break;
+            case identifiers.kDirection:{
+                g.setdirection(packet);
+            }
+            break;
+            case identifiers.kCollision:{
+                console.log("Colliding!!!");
+            }
         }
     }
-  });
