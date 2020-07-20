@@ -72,8 +72,8 @@
       this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
       this.ctx.fillStyle = '#353133'
       this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
-      let scrollx = (this.canvas.width / 2 - 20 / 2 - this.self.getsegmenthead().xpos) ;
-      let scrolly = (this.canvas.height / 2 - 20 / 2 - this.self.getsegmenthead().ypos) ;
+      let scrollx = (this.canvas.width / 2 - 10 / 2 - this.self.getsegmenthead().xpos) ;
+      let scrolly = (this.canvas.height / 2 - 10 / 2 - this.self.getsegmenthead().ypos) ;
       this.ctx.save();
       this.ctx.translate(scrollx,scrolly);
       //this.ctx.scale(2,2);
@@ -84,7 +84,7 @@
 
       for(var index = 0; index < this.objectives.length;++index){
         this.ctx.fillStyle = "#e58264";
-        this.ctx.fillRect(this.objectives[index].xpos,this.objectives[index].ypos,20,20);
+        this.ctx.fillRect(this.objectives[index].xpos,this.objectives[index].ypos,10,10);
       }
       this.ctx.restore();
   
@@ -147,5 +147,15 @@
     }
     this.objectives.splice(target,1);
     console.log(this.objectives);
+  }
+  despawn(packet){
+    var target = 0;
+    for(var index = 0; index < this.players.length;++index){
+      if(this.players[index].playerid==packet.PlayerId){
+        target = index;
+        break;
+      }
+    }
+    this.players.splice(target,1);
   }
 }

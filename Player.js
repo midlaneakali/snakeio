@@ -114,12 +114,13 @@ class Player{
     draw(ctx){
         
         ctx.fillStyle = '#497997';
-        for(var s = 0; s < this.body.length;++s){
+        for(var s = 1; s < this.body.length;++s){
             let segment = this.body[s];
-            ctx.fillRect(segment.xpos,segment.ypos,20,20);
+            ctx.fillRect(segment.xpos,segment.ypos,10,10);
     
         }
-        
+        ctx.fillStyle = '#e85261';
+        ctx.fillRect(this.getsegmenthead().xpos,this.getsegmenthead().ypos,10,10);
     }
     
     interpolatemovement(current, target, maxdistancedelta) {

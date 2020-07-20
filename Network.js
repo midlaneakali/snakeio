@@ -45,7 +45,7 @@
             }
             break;
             case identifiers.kDespawn:{
-
+                g.despawn(packet);
             }
             break;
             case identifiers.kMovement:{
