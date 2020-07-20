@@ -13,9 +13,13 @@ class Player{
         this.body = [];
         this.body.push(new Segment(xpos,ypos,direction));
         this.delta = 0.016;;
+        this.lastprint = performance.now();
+    }
+    getsegmenthead(){
+        return this.body[0];
     }
     changedirection(direction){
-        this.body[0].direction = direction;
+        this.getsegmenthead().direction = direction;
     }
     getsegmentoffset(segment){
         var x = segment.xpos;
@@ -45,17 +49,14 @@ class Player{
         let lastsegment = this.body[this.body.length-1];
    
         let offset = this.getsegmentoffset(lastsegment);
-        console.log(lastsegment);
-        console.log(offset);
         let segment = new Segment(offset.xpos,offset.ypos,lastsegment.direction);
         return segment;
     }
-    addsegment(){
+    pushsegment(){
         for(var x = 0; x < 5;++x){
             let segment = this.getsegmentposition();
             this.body.push(segment);   
         }
-        
     }
     calculatesegmentposition(segment,delta){
         switch(segment.direction){
@@ -65,14 +66,17 @@ class Player{
             break;
             case 1:{
                 segment.ypos+=this.speed*delta;
+
             }
             break;
             case 2:{
                 segment.xpos-=this.speed*delta;
+
             }
             break;
             case 3:{
                 segment.ypos-=this.speed*delta;
+
             }
             break;
         }
@@ -80,7 +84,11 @@ class Player{
 
     update(ctx,delta){
         this.delta = delta;
-        
+        let now = performance.now();
+        if(now-this.lastprint>3000){
+            this.lastprint = now;
+            console.log(this.body[0].xpos);
+        }
 
         for(var s = this.body.length-1; s > 0;--s){
             let segment = this.body[s];
