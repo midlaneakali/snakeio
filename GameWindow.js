@@ -45,7 +45,12 @@
         this.objectives.push(objective);
         requestAnimationFrame(this.frame.bind(this));
       }else{
-
+        let p = new Player(packet.PlayerId);
+        p.speed = packet.Speed;
+        for(let e of packet.Positions){
+          p.addsegment(e.XPosition,e.YPosition,e.Direction);
+        }
+        this.players.push(p);
       }
     }
     frame(time){
