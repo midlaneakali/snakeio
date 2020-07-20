@@ -13,6 +13,8 @@ class PacketIdentifier{
         this.kObjective = 10;
         this.kAddSegment = 11;
         this.kDirection = 12;
+        this.kDespawnObjective = 13;
+        this.kSpawnObjective = 14;
     }
 }
 /*

@@ -51,8 +51,8 @@
         this.self.dxpos = packet.Positions[0].XPosition;
         this.self.dxpos = packet.Positions[0].YPosition;
         this.players.push(this.self);
-        let objective = new Segment(600,500,0);
-        this.objectives.push(objective);
+        //let objective = new Segment(600,500,0);
+       // this.objectives.push(objective);
         requestAnimationFrame(this.frame.bind(this));
       }else{
         let p = new Player(packet.PlayerId);
@@ -70,19 +70,23 @@
       let delta = (time - this.lastupdate )/1000;
 
       this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
-      let scrollx = (this.canvas.width / 2 - 10 / 2 - this.self.getsegmenthead().xpos) ;
-      let scrolly = (this.canvas.height / 2 - 10 / 2 - this.self.getsegmenthead().ypos) ;
+      this.ctx.fillStyle = '#353133'
+      this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+      let scrollx = (this.canvas.width / 2 - 20 / 2 - this.self.getsegmenthead().xpos) ;
+      let scrolly = (this.canvas.height / 2 - 20 / 2 - this.self.getsegmenthead().ypos) ;
+      this.ctx.save();
       this.ctx.translate(scrollx,scrolly);
+      //this.ctx.scale(2,2);
       for(let index = 0; index < this.players.length;++index){
         this.players[index].update(this.ctx,delta);
         this.players[index].draw(this.ctx);
       }
 
       for(var index = 0; index < this.objectives.length;++index){
-        this.ctx.fillStyle = "green";
-        this.ctx.fillRect(this.objectives[index].xpos,this.objectives[index].ypos,10,10);
+        this.ctx.fillStyle = "#e58264";
+        this.ctx.fillRect(this.objectives[index].xpos,this.objectives[index].ypos,20,20);
       }
-      this.ctx.resetTransform();
+      this.ctx.restore();
   
       this.lastupdate = time;
       requestAnimationFrame(this.frame.bind(this));
@@ -120,5 +124,28 @@
       }
       
     }
+  }
+  addobjectives(packet){
+    for(let e of packet.Positions){
+      let objective = new Segment(e.XPosition,e.YPosition,e.Direction);
+      this.objectives.push(objective);
+    }
+  }
+  spawnobjective(packet){
+    this.objectives.push(new Segment(packet.XPosition,packet.YPosition,packet.Direction));
+  }
+  despawnobjective(packet){
+    console.log(this.objectives);
+    var target = 0;
+    for(var index = 0; index < this.objectives.length;++index){
+      let objective = this.objectives[index];
+      if(objective.xpos == packet.XPosition && objective.ypos == packet.YPosition){
+        target = index;
+
+        break;
+      }
+    }
+    this.objectives.splice(target,1);
+    console.log(this.objectives);
   }
 }

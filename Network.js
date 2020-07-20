@@ -18,7 +18,7 @@
     }
     function packethandler(jsonpacket){
         let packet = JSON.parse(jsonpacket);
-       //
+        //console.log(packet);
         switch(packet.PacketId){
             case identifiers.kSelf:{
                 g = new Game(packet.PlayerId);
@@ -63,7 +63,22 @@
             }
             break;
             case identifiers.kCollision:{
-                console.log("Colliding!!!");
+             
             }
+            break;
+            case identifiers.kObjective:{
+                g.addobjectives(packet);
+            }
+            break;
+            case identifiers.kDespawnObjective:{
+                g.despawnobjective(packet);
+ 
+            }
+            break;
+            case identifiers.kSpawnObjective:{
+                g.spawnobjective(packet);
+              
+            }
+            break;
         }
     }

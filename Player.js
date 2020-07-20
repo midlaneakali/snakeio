@@ -9,7 +9,7 @@ class Player{
     constructor(playerid){
         this.playerid = playerid;
  
-        this.speed = 10.0;
+        this.speed = 50.0;
         this.body = [];
         this.delta = 0.016;;
         this.lastprint = performance.now();
@@ -113,10 +113,10 @@ class Player{
     }
     draw(ctx){
         
-        ctx.fillStyle = 'black';
+        ctx.fillStyle = '#497997';
         for(var s = 0; s < this.body.length;++s){
             let segment = this.body[s];
-            ctx.fillRect(segment.xpos,segment.ypos,10,10);
+            ctx.fillRect(segment.xpos,segment.ypos,20,20);
     
         }
         
