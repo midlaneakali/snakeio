@@ -28,6 +28,7 @@ class Player{
     getsegmentoffset(segment){
         var x = segment.xpos;
         var y = segment.ypos;
+
         switch(segment.direction ){
             case 0:{
                 x-=this.delta*this.speed;
@@ -91,6 +92,7 @@ class Player{
         let now = performance.now();
         if(now-this.lastprint>3000){
             this.lastprint = now;
+            console.log(this.dxpos+":"+this.dypos);
         }
 
         for(var s = this.body.length-1; s > 0;--s){
@@ -102,7 +104,7 @@ class Player{
             //this.addwhtosegment(segment);
   
         }
-        this.calculatesegmentposition(this.body[0],this.delta);
+        this.calculatesegmentposition(this.body[0],delta);
         let head = this.getsegmenthead();
 
         head.xpos = this.interpolatemovement(head.xpos,this.dxpos,this.speed*delta);

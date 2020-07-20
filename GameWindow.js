@@ -65,9 +65,10 @@
       let scrollx = (this.canvas.width / 2 - 10 / 2 - this.self.getsegmenthead().xpos) ;
       let scrolly = (this.canvas.height / 2 - 10 / 2 - this.self.getsegmenthead().ypos) ;
       this.ctx.translate(scrollx,scrolly);
-
-      this.self.update(this.ctx,delta);
-      this.self.draw(this.ctx);
+      for(let index = 0; index < this.players.length;++index){
+        this.players[index].update(this.ctx,delta);
+        this.players[index].draw(this.ctx);
+      }
 
       for(var index = 0; index < this.objectives.length;++index){
         this.ctx.fillStyle = "green";
@@ -81,8 +82,8 @@
     interpolateplayerposition(packet){
       for(let index = 0; index < this.players.length;++index){
         let player = this.players[index];
-
         if(player.playerid == packet.PlayerId){
+          
           player.dxpos = packet.XPosition;
           player.dypos = packet.YPosition;
           break;
