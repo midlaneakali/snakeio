@@ -6,14 +6,16 @@ class Segment{
     }
 }
 class Player{
-    constructor(playerid,xpos,ypos,direction,speed,length){
+    constructor(playerid){
         this.playerid = playerid;
-        this.speed = speed;
-        this.length = length;   
+ 
+        this.speed = 10.0;
         this.body = [];
-        this.body.push(new Segment(xpos,ypos,direction));
         this.delta = 0.016;;
         this.lastprint = performance.now();
+    }
+    addsegment(xpos,ypos,directon){
+        this.body.push(new Segment(xpos,ypos,directon));
     }
     getsegmenthead(){
         return this.body[0];
@@ -87,7 +89,6 @@ class Player{
         let now = performance.now();
         if(now-this.lastprint>3000){
             this.lastprint = now;
-            console.log(this.body[0].xpos);
         }
 
         for(var s = this.body.length-1; s > 0;--s){

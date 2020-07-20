@@ -1,8 +1,7 @@
 
   class Game{
     constructor(playerid){
-      this.playerid = playerid;
-      this.self = new Player(this.playerid,0,0,0,0.0,1);
+      this.self = new Player(playerid);
       this.lastupdate = performance.now();
       this.players = [];
       this.objectives = [];
@@ -34,6 +33,21 @@
         this.self.pushsegment();
       }
     }
+    insertplayer(packet){
+      if(packet.PlayerId == this.self.playerid){
+        window.addEventListener("keydown",this.changedirection.bind(this),true);
+        this.self.speed = packet.Speed;
+        for(let e of packet.Positions){
+          this.self.addsegment(e.XPosition,e.YPosition,e.Direction);
+        }
+        this.players.push(this.self);
+        let objective = new Segment(600,500,0);
+        this.objectives.push(objective);
+        requestAnimationFrame(this.frame.bind(this));
+      }else{
+
+      }
+    }
     frame(time){
       
       let delta = (time - this.lastupdate )/1000;
@@ -55,16 +69,5 @@
       this.lastupdate = time;
       requestAnimationFrame(this.frame.bind(this));
     }
-    beginplay(xpos,ypos,direction,speed){
-      window.addEventListener("keydown",this.changedirection.bind(this),true);
-      this.self.getsegmenthead().xpos = xpos;
-      this.self.getsegmenthead().ypos = ypos;
-      this.self.getsegmenthead().direction = direction;
-      console.log("Direction: "+direction);
-      this.self.speed = speed;
-      this.players.push(this.self);
-      let objective = new Segment(600,500,0);
-      this.objectives.push(objective);
-      requestAnimationFrame(this.frame.bind(this));
-    }
+
   }
