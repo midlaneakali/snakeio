@@ -13,6 +13,8 @@ class Player{
         this.body = [];
         this.delta = 0.016;;
         this.lastprint = performance.now();
+        this.dxpos = 0;
+        this.dypos = 0;
     }
     addsegment(xpos,ypos,directon){
         this.body.push(new Segment(xpos,ypos,directon));
@@ -63,21 +65,21 @@ class Player{
     calculatesegmentposition(segment,delta){
         switch(segment.direction){
             case 0:{
-                segment.xpos+=this.speed*delta;
+                this.dxpos+=this.speed*delta;
             }
             break;
             case 1:{
-                segment.ypos+=this.speed*delta;
+                this.dypos+=this.speed*delta;
 
             }
             break;
             case 2:{
-                segment.xpos-=this.speed*delta;
+                this.dxpos-=this.speed*delta;
 
             }
             break;
             case 3:{
-                segment.ypos-=this.speed*delta;
+                this.dypos-=this.speed*delta;
 
             }
             break;
@@ -101,6 +103,10 @@ class Player{
   
         }
         this.calculatesegmentposition(this.body[0],this.delta);
+        let head = this.getsegmenthead();
+
+        head.xpos = this.interpolatemovement(head.xpos,this.dxpos,this.speed*delta);
+        head.ypos = this.interpolatemovement(head.ypos,this.dypos,this.speed*delta);
     }
     draw(ctx){
         
@@ -112,5 +118,11 @@ class Player{
         }
         
     }
-
+    
+    interpolatemovement(current, target, maxdistancedelta) {
+        if (Math.abs(target - current) <= maxdistancedelta) {
+            return target;
+        }
+        return current + Math.sign(target - current) * maxdistancedelta;
+    }
 }

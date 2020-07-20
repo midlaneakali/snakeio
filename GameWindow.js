@@ -40,6 +40,8 @@
         for(let e of packet.Positions){
           this.self.addsegment(e.XPosition,e.YPosition,e.Direction);
         }
+        this.self.dxpos = packet.Positions[0].XPosition;
+        this.self.dxpos = packet.Positions[0].YPosition;
         this.players.push(this.self);
         let objective = new Segment(600,500,0);
         this.objectives.push(objective);
@@ -50,6 +52,8 @@
         for(let e of packet.Positions){
           p.addsegment(e.XPosition,e.YPosition,e.Direction);
         }
+        p.dxpos = packet.Positions[0].XPosition;
+        p.dxpos = packet.Positions[0].YPosition;
         this.players.push(p);
       }
     }
@@ -74,5 +78,15 @@
       this.lastupdate = time;
       requestAnimationFrame(this.frame.bind(this));
     }
+    interpolateplayerposition(packet){
+      for(let index = 0; index < this.players.length;++index){
+        let player = this.players[index];
 
+        if(player.playerid == packet.PlayerId){
+          player.dxpos = packet.XPosition;
+          player.dypos = packet.YPosition;
+          break;
+        }
+      }
+  }
   }

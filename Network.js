@@ -15,9 +15,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     function packethandler(jsonpacket){
         let packet = JSON.parse(jsonpacket);
-        
+        console.log(packet);
         switch(packet.PacketId){
-
             case identifiers.kSelf:{
                 g = new Game(packet.PlayerId);
                 
@@ -38,7 +37,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     g.beginplay(packet.Positions[0].XPosition,packet.Positions[0].YPosition,packet.Positions[0].Direction,20.0);
                 }
                 */
-               console.log(packet);
+               
                g.insertplayer(packet);
             }
             break;
@@ -49,6 +48,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             case identifiers.kMovement:{
                // g.self.body[0].xpos = packet.Positions[0].XPosition;
                // g.self.body[0].ypos = packet.Positions[0].YPosition;
+               g.interpolateplayerposition(packet);
             }
         }
     }
