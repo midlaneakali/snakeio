@@ -106,8 +106,8 @@ class Player{
         this.calculatesegmentposition(this.body[0],delta);
         let head = this.getsegmenthead();
 
-        head.xpos = this.interpolatemovement(head.xpos,this.dxpos,(this.speed*3)*delta);
-        head.ypos = this.interpolatemovement(head.ypos,this.dypos,(this.speed*3)*delta);
+        head.xpos = this.interpolatemovement(head.xpos,this.dxpos,(this.speed)*delta);
+        head.ypos = this.interpolatemovement(head.ypos,this.dypos,(this.speed)*delta);
        //head.xpos = this.dxpos;
        //head.ypos = this.dypos;
     }

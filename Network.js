@@ -80,5 +80,9 @@
               
             }
             break;
+            case identifiers.kGhost:{
+                g.spawnghost(packet);
+            }
+            break;
         }
     }

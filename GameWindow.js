@@ -9,6 +9,7 @@
       this.ctx = this.canvas.getContext("2d");
       this.canvas.width = window.innerWidth;
       this.canvas.height = window.innerHeight;
+      this.ghost = null;
     }
     changedirection(e){
       if(e.key=="ArrowRight"){
@@ -86,6 +87,11 @@
         this.ctx.fillStyle = "#e58264";
         this.ctx.fillRect(this.objectives[index].xpos,this.objectives[index].ypos,10,10);
       }
+
+      if(this.ghost!=null){
+        this.ghost.update(this.ctx,delta);
+        this.ghost.draw(this.ctx);
+      }
       this.ctx.restore();
   
       this.lastupdate = time;
@@ -158,5 +164,14 @@
       }
     }
     this.players.splice(target,1);
+  }
+  spawnghost(packet){
+    console.log(packet);
+    this.ghost = new Player(0);
+    for(let e of packet.Positions){
+      this.ghost.body.push(new Segment(e.XPosition,e.YPosition,e.Direction));
+    }
+    this.ghost.dxpos = packet.Positions[0].XPosition;
+    this.ghost.dypos = packet.Positions[0].YPosition;
   }
 }

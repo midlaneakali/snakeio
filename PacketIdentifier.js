@@ -15,6 +15,7 @@ class PacketIdentifier{
         this.kDirection = 12;
         this.kDespawnObjective = 13;
         this.kSpawnObjective = 14;
+        this.kGhost = 15;
     }
 }
 /*
