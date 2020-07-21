@@ -18,22 +18,7 @@
     }
     function packethandler(jsonpacket){
         let packet = JSON.parse(jsonpacket);
-        
-        if(Array.isArray(packet)){
-            g.packets.push(packet);
-           // console.log("is array");
-        }
-        else{
-            //console.log("is not array");
-            switch(packet.PacketId){
-
-                case identifiers.kSelf:{
-                    g.self.playerid = packet.PlayerId;
-                    g.insertplayer()
-                }
-                break;
-            }
-        }
+        g.packets.push(packet);
         
 
         //console.log(packet);
