@@ -49,7 +49,7 @@
           this.self.addsegment(e.XPosition,e.YPosition,e.Direction);
         }
         this.self.dxpos = packet.Positions[0].XPosition;
-        this.self.dxpos = packet.Positions[0].YPosition;
+        this.self.dypos = packet.Positions[0].YPosition;
         this.players.push(this.self);
         //let objective = new Segment(600,500,0);
        // this.objectives.push(objective);
@@ -61,7 +61,7 @@
           p.addsegment(e.XPosition,e.YPosition,e.Direction);
         }
         p.dxpos = packet.Positions[0].XPosition;
-        p.dxpos = packet.Positions[0].YPosition;
+        p.dypos = packet.Positions[0].YPosition;
         this.players.push(p);
       }
     }
