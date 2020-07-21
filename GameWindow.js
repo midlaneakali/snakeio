@@ -106,11 +106,13 @@
     for(let index = 0; index < this.players.length;++index){
       let target = this.players[index];
       if(packet.PlayerId  == target.playerid){
-        
+        /*
         for(let e of packet.Positions){
           target.addsegment(e.XPosition,e.YPosition,e.Direction);
 
         }
+        */
+       target.pushsegment();
         break;
       }
     }

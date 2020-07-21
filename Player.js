@@ -58,7 +58,7 @@ class Player{
         return segment;
     }
     pushsegment(){
-        for(var x = 0; x < 5;++x){
+        for(var x = 0; x < 10;++x){
             let segment = this.getsegmentposition();
             this.body.push(segment);   
         }

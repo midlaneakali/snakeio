@@ -63,7 +63,7 @@
             }
             break;
             case identifiers.kCollision:{
-             
+                console.log("COLLISION!");
             }
             break;
             case identifiers.kObjective:{
