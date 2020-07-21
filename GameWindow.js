@@ -135,7 +135,7 @@
     this.objectives.push(new Segment(packet.XPosition,packet.YPosition,packet.Direction));
   }
   despawnobjective(packet){
-    console.log(this.objectives);
+
     var target = 0;
     for(var index = 0; index < this.objectives.length;++index){
       let objective = this.objectives[index];
@@ -146,7 +146,6 @@
       }
     }
     this.objectives.splice(target,1);
-    console.log(this.objectives);
   }
   despawn(packet){
     var target = 0;
