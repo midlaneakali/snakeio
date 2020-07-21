@@ -3,7 +3,7 @@
     let identifiers = new PacketIdentifier();
     var g;
     ws.onopen = function(){
-
+        g = new Game(0);
     }
     ws.onclose = function(){
 
@@ -18,71 +18,24 @@
     }
     function packethandler(jsonpacket){
         let packet = JSON.parse(jsonpacket);
-        //console.log(packet);
-        switch(packet.PacketId){
-            case identifiers.kSelf:{
-                g = new Game(packet.PlayerId);
-                
-            }
-            break;
-            case identifiers.kInGame:{
-
-            }
-            break;
-            case identifiers.kLeftGame:{
-
-            }
-            break;
-            case identifiers.kSpawn:{
-                
-                /*
-                if(packet.PlayerId==g.playerid){
-                    g.beginplay(packet.Positions[0].XPosition,packet.Positions[0].YPosition,packet.Positions[0].Direction,20.0);
-                }
-                */
-               
-               g.insertplayer(packet);
-            }
-            break;
-            case identifiers.kDespawn:{
-                g.despawn(packet);
-            }
-            break;
-            case identifiers.kMovement:{
-               // g.self.body[0].xpos = packet.Positions[0].XPosition;
-               // g.self.body[0].ypos = packet.Positions[0].YPosition;
-               g.interpolateplayerposition(packet);
-            }
-            break;
-            case identifiers.kAddSegment:{
-                g.addsegment(packet);
-            }
-            break;
-            case identifiers.kDirection:{
-                g.setdirection(packet);
-            }
-            break;
-            case identifiers.kCollision:{
-                console.log("COLLISION!");
-            }
-            break;
-            case identifiers.kObjective:{
-                g.addobjectives(packet);
-            }
-            break;
-            case identifiers.kDespawnObjective:{
-                g.despawnobjective(packet);
- 
-            }
-            break;
-            case identifiers.kSpawnObjective:{
-                g.spawnobjective(packet);
-              
-            }
-            break;
-            case identifiers.kGhost:{
-                //g.spawnghost(packet);
-            }
-            break;
+        
+        if(Array.isArray(packet)){
+            g.packets.push(packet);
+           // console.log("is array");
         }
+        else{
+            //console.log("is not array");
+            switch(packet.PacketId){
+
+                case identifiers.kSelf:{
+                    g.self.playerid = packet.PlayerId;
+                    g.insertplayer()
+                }
+                break;
+            }
+        }
+        
+
+        //console.log(packet);
+        
     }

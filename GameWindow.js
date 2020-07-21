@@ -1,7 +1,7 @@
 
   class Game{
     constructor(playerid){
-      this.self = new Player(playerid);
+      this.self = null;
       this.lastupdate = performance.now();
       this.players = [];
       this.objectives = [];
@@ -10,6 +10,9 @@
       this.canvas.width = window.innerWidth;
       this.canvas.height = window.innerHeight;
       this.ghost = null;
+      this.packets = [];
+      this.playerid = null;
+      requestAnimationFrame(this.frame.bind(this));
     }
     changedirection(e){
       if(e.key=="ArrowRight"){
@@ -43,7 +46,8 @@
       }
     }
     insertplayer(packet){
-      if(packet.PlayerId == this.self.playerid){
+      if(packet.PlayerId == this.playerid){
+        this.self = new Player(this.playerid);
         window.addEventListener("keydown",this.changedirection.bind(this),true);
         this.self.speed = packet.Speed;
         for(let e of packet.Positions){
@@ -54,7 +58,7 @@
         this.players.push(this.self);
         //let objective = new Segment(600,500,0);
        // this.objectives.push(objective);
-        requestAnimationFrame(this.frame.bind(this));
+        
       }else{
         let p = new Player(packet.PlayerId);
         p.speed = packet.Speed;
@@ -69,8 +73,20 @@
     frame(time){
       
       let delta = (time - this.lastupdate )/1000;
-
+      while(this.packets.length>0){
+        let packetarray = this.packets.shift();
+        for(let packet of packetarray){
+          this.packethandler(packet);
+          console.log(packet);
+        }
+        
+      }
       this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+      /*
+      //deque packets here
+      //
+      */
+     if(this.self!=null){
       this.ctx.fillStyle = '#353133'
       this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
       let scrollx = (this.canvas.width / 2 - 10 / 2 - this.self.getsegmenthead().xpos) ;
@@ -93,7 +109,8 @@
         this.ghost.draw(this.ctx);
       }
       this.ctx.restore();
-  
+     }
+
       this.lastupdate = time;
       requestAnimationFrame(this.frame.bind(this));
     }
@@ -173,5 +190,73 @@
     }
     this.ghost.dxpos = packet.Positions[0].XPosition;
     this.ghost.dypos = packet.Positions[0].YPosition;
+  }
+  packethandler(packet){
+    switch(packet.PacketId){
+      case identifiers.kSelf:{
+        //this.self = new Player(packet.PlayerId);
+        this.playerid = packet.PlayerId;
+      }
+      break;
+      case identifiers.kInGame:{
+
+      }
+      break;
+      case identifiers.kLeftGame:{
+
+      }
+      break;
+      case identifiers.kSpawn:{
+          
+          /*
+          if(packet.PlayerId==g.playerid){
+              g.beginplay(packet.Positions[0].XPosition,packet.Positions[0].YPosition,packet.Positions[0].Direction,20.0);
+          }
+          */
+         
+         this.insertplayer(packet);
+      }
+      break;
+      case identifiers.kDespawn:{
+          this.despawn(packet);
+      }
+      break;
+      case identifiers.kMovement:{
+         // g.self.body[0].xpos = packet.Positions[0].XPosition;
+         // g.self.body[0].ypos = packet.Positions[0].YPosition;
+         this.interpolateplayerposition(packet);
+      }
+      break;
+      case identifiers.kAddSegment:{
+          this.addsegment(packet);
+      }
+      break;
+      case identifiers.kDirection:{
+          this.setdirection(packet);
+      }
+      break;
+      case identifiers.kCollision:{
+          console.log("COLLISION!");
+      }
+      break;
+      case identifiers.kObjective:{
+          this.addobjectives(packet);
+      }
+      break;
+      case identifiers.kDespawnObjective:{
+          this.despawnobjective(packet);
+
+      }
+      break;
+      case identifiers.kSpawnObjective:{
+          this.spawnobjective(packet);
+        
+      }
+      break;
+      case identifiers.kGhost:{
+          //g.spawnghost(packet);
+      }
+      break;
+  }
   }
 }
