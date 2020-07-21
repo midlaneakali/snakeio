@@ -81,7 +81,7 @@
             }
             break;
             case identifiers.kGhost:{
-                g.spawnghost(packet);
+                //g.spawnghost(packet);
             }
             break;
         }
