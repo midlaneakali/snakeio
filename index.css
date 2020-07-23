@@ -1,4 +1,27 @@
-body{
-    overflow: hidden;
-    background-color: '#353133';
+html
+{
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
 }
+body{
+
+    width:  100%;
+    height: 100%;
+    margin: 0px;  
+    padding:0px; 
+    touch-action: none;
+    -ms-touch-action: none;
+    overflow:hidden;
+}
+canvas
+      {
+          image-rendering: optimizeSpeed;
+          image-rendering: -moz-crisp-edges;
+          image-rendering: -webkit-optimize-contrast;
+          image-rendering: -o-crisp-edges;
+          image-rendering: crisp-edges;
+          -ms-interpolation-mode: nearest-neighbor;
+           touch-action-delay: none;
+          touch-action: none;
+          -ms-touch-action: none;
+      }
