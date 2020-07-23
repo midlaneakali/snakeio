@@ -4,6 +4,14 @@
     var g;
     ws.onopen = function(){
         g = new Game(0);
+       let name = localStorage.getItem('name');
+       let randomkey = localStorage.getItem('random');
+       let packet = {
+        PacketId: identifiers.kNameRequest,
+        Random: parseInt(randomkey,10),
+        Name: name
+       };
+       networksend(packet);
     }
     ws.onclose = function(){
 
@@ -14,11 +22,19 @@
         packethandler(packet);
     }
     function networksend(packet){
-        ws.send(JSON.stringify(packet));
+        let strung = JSON.stringify(packet);
+        console.log(strung);
+        ws.send(strung);
     }
     function packethandler(jsonpacket){
+        
         let packet = JSON.parse(jsonpacket);
-        g.packets.push(packet);
+        if(Array.isArray(packet)){
+            g.packets.push(packet);
+        }else{
+
+        }
+        
         
 
         //console.log(packet);

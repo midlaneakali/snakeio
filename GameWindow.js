@@ -11,6 +11,7 @@ class Game {
     this.canvas.height = window.innerHeight;
     this.packets = [];
     this.playerid = null;
+    this.name = null;
     
     requestAnimationFrame(this.frame.bind(this));
   }
@@ -121,6 +122,11 @@ class Game {
           this.ctx.fillStyle = "#e58264";
           this.ctx.fillRect(this.objectives[index].xpos, this.objectives[index].ypos, 10, 10);
         }
+        
+        this.ctx.fillStyle = '#B2D06f';
+        this.ctx.font = '15px sans-sarif';
+        this.ctx.fillText(this.name,this.self.getsegmenthead().xpos+10,this.self.getsegmenthead().ypos-10,50);
+        
         this.ctx.restore();
       }
 
@@ -204,6 +210,8 @@ class Game {
       case identifiers.kSelf: {
         //this.self = new Player(packet.PlayerId);
         this.playerid = packet.PlayerId;
+        this.name = packet.Name;
+        console.log(packet.Name);
       }
         break;
       case identifiers.kInGame: {
