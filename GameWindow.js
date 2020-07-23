@@ -60,8 +60,10 @@ class Game {
     }
   }
   insertplayer(packet) {
+    console.log(packet);
     if (packet.PlayerId == this.playerid) {
       this.self = new Player(this.playerid);
+      this.self.name = packet.Name;
       window.addEventListener("keydown", this.changedirection.bind(this), true);
       this.self.speed = packet.Speed;
       for (let e of packet.Positions) {
@@ -75,6 +77,7 @@ class Game {
 
     } else {
       let p = new Player(packet.PlayerId);
+      p.name = packet.Name;
       p.speed = packet.Speed;
       for (let e of packet.Positions) {
         p.addsegment(e.XPosition, e.YPosition, e.Direction);
@@ -123,9 +126,7 @@ class Game {
           this.ctx.fillRect(this.objectives[index].xpos, this.objectives[index].ypos, 10, 10);
         }
         
-        this.ctx.fillStyle = '#B2D06f';
-        this.ctx.font = '15px sans-sarif';
-        this.ctx.fillText(this.name,this.self.getsegmenthead().xpos+10,this.self.getsegmenthead().ypos-10,50);
+        
         
         this.ctx.restore();
       }
@@ -210,8 +211,6 @@ class Game {
       case identifiers.kSelf: {
         //this.self = new Player(packet.PlayerId);
         this.playerid = packet.PlayerId;
-        this.name = packet.Name;
-        console.log(packet.Name);
       }
         break;
       case identifiers.kInGame: {
@@ -229,7 +228,7 @@ class Game {
             g.beginplay(packet.Positions[0].XPosition,packet.Positions[0].YPosition,packet.Positions[0].Direction,20.0);
         }
         */
-
+        console.log(packet);
         this.insertplayer(packet);
       }
         break;

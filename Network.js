@@ -23,18 +23,12 @@
     }
     function networksend(packet){
         let strung = JSON.stringify(packet);
-        console.log(strung);
         ws.send(strung);
     }
     function packethandler(jsonpacket){
         
         let packet = JSON.parse(jsonpacket);
-        if(Array.isArray(packet)){
-            g.packets.push(packet);
-        }else{
-
-        }
-        
+        g.packets.push(packet);
         
 
         //console.log(packet);

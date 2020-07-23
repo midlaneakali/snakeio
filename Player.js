@@ -15,6 +15,7 @@ class Player{
         this.lastprint = performance.now();
         this.dxpos = 0;
         this.dypos = 0;
+        this.name = "";
     }
     addsegment(xpos,ypos,directon){
         this.body.push(new Segment(xpos,ypos,directon));
@@ -121,6 +122,10 @@ class Player{
         }
         ctx.fillStyle = '#e85261';
         ctx.fillRect(this.getsegmenthead().xpos,this.getsegmenthead().ypos,10,10);
+
+        ctx.fillStyle = '#B2D06f';
+        ctx.font = '15px sans-sarif';
+        ctx.fillText(this.name,this.getsegmenthead().xpos+10,this.getsegmenthead().ypos-10,50);
     }
     
     interpolatemovement(current, target, maxdistancedelta) {
