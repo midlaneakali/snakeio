@@ -16,6 +16,7 @@ class PacketIdentifier{
         this.kDespawnObjective = 13;
         this.kSpawnObjective = 14;
         this.kGhost = 15;
+        this.kServerTime = 16;
     }
 }
 /*
