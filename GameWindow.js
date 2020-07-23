@@ -11,7 +11,6 @@ class Game {
     this.canvas.height = window.innerHeight;
     this.packets = [];
     this.playerid = null;
-    this.servertime = 0;
     requestAnimationFrame(this.frame.bind(this));
   }
   changedirection(e) {
@@ -104,9 +103,6 @@ class Game {
           this.ctx.fillRect(this.objectives[index].xpos, this.objectives[index].ypos, 10, 10);
         }
         this.ctx.restore();
-        this.ctx.fillStyle = '#5DAFF5'
-        this.ctx.font = '20px sans-serif'
-        this.ctx.fillText("Server time: " + Math.floor(this.servertime / 100), 200, 200, 200);
       }
 
 
@@ -244,10 +240,6 @@ class Game {
       case identifiers.kSpawnObjective: {
         this.spawnobjective(packet);
 
-      }
-        break;
-      case identifiers.kServerTime: {
-        this.servertime = packet.ServerTime;
       }
         break;
     }
