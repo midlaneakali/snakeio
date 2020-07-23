@@ -11,6 +11,7 @@ class Game {
     this.canvas.height = window.innerHeight;
     this.packets = [];
     this.playerid = null;
+    
     requestAnimationFrame(this.frame.bind(this));
   }
   changedirection(e) {
@@ -42,6 +43,19 @@ class Game {
       }
     } else if (e.which == 32) {
       networksend({ PacketId: identifiers.kAddSegment });
+    }
+  }
+  gamepadobserver(direction){
+    if(direction.e){
+      networksend({ PacketId: identifiers.kDirection, Direction: 0 });
+    }else if(direction.s){
+      networksend({ PacketId: identifiers.kDirection, Direction: 1 });
+    }
+    else if(direction.w){
+      networksend({ PacketId: identifiers.kDirection, Direction: 2 });
+    }
+    else if(direction.n){
+      networksend({ PacketId: identifiers.kDirection, Direction: 3 });
     }
   }
   insertplayer(packet) {
@@ -79,7 +93,12 @@ class Game {
       }
 
     }
+    
+    //console.log(map);
     if (time - this.lastupdate > 30) {
+      var map = CanvasGamepad.observe();
+      this.gamepadobserver(map);
+      //console.log(map);
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       /*
       //deque packets here
