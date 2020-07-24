@@ -87,7 +87,12 @@ class Player{
             break;
         }
     }
-
+    inbounds(segment){
+        if(segment.xpos>=0&&segment.ypos>=0&&segment.xpos<3000&&segment.ypos<3000){
+            return true;
+        }
+        return false;
+    }
     update(ctx,delta){
         this.delta = delta;
         let now = performance.now();
@@ -104,11 +109,18 @@ class Player{
             //this.addwhtosegment(segment);
   
         }
-        this.calculatesegmentposition(this.body[0],delta);
-        let head = this.getsegmenthead();
 
+        
+        let head = this.getsegmenthead();
+        this.calculatesegmentposition(this.body[0],delta);
         head.xpos = this.interpolatemovement(head.xpos,this.dxpos,(this.speed)*delta);
         head.ypos = this.interpolatemovement(head.ypos,this.dypos,(this.speed)*delta);
+        if(this.inbounds(head)){
+            
+        }else{
+
+        }
+        
        //head.xpos = this.dxpos;
        //head.ypos = this.dypos;
     }

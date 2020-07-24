@@ -104,6 +104,7 @@ class Game {
       this.gamepadobserver(map);
       //console.log(map);
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      
       /*
       //deque packets here
       //
@@ -126,12 +127,12 @@ class Game {
           this.ctx.fillRect(this.objectives[index].xpos, this.objectives[index].ypos, 10, 10);
         }
         
-        
+        this.ctx.strokeStyle = 'red';
+        this.ctx.strokeRect(0,0,4000,4000);
         
         this.ctx.restore();
+        
       }
-
-
 
       this.lastupdate = time;
     }
