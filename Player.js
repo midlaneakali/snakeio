@@ -9,7 +9,7 @@ class Player{
     constructor(playerid){
         this.playerid = playerid;
  
-        this.speed = 50.0;
+        this.speed = 25.0;
         this.body = [];
         this.delta = 0.016;;
         this.lastprint = performance.now();
