@@ -43,7 +43,17 @@ class Game {
         //this.self.getsegmenthead().direction = 3;
       }
     } else if (e.which == 32) {
-      networksend({ PacketId: identifiers.kAddSegment });
+      if(e.repeat){
+        return;
+      }
+      networksend({PacketId: identifiers.kSpeedBoost,Start: true});
+
+    }
+  }
+  keyletgo(e){
+    if(e.which == 32){
+      
+      networksend({PacketId: identifiers.kSpeedBoost,Start: false});
     }
   }
   gamepadobserver(direction){
@@ -65,6 +75,7 @@ class Game {
       this.self = new Player(this.playerid);
       this.self.name = packet.Name;
       window.addEventListener("keydown", this.changedirection.bind(this), true);
+      window.addEventListener("keyup",this.keyletgo.bind(this),true);
       this.self.speed = packet.Speed;
       for (let e of packet.Positions) {
         this.self.addsegment(e.XPosition, e.YPosition, e.Direction);
@@ -207,6 +218,14 @@ class Game {
     }
     this.players.splice(target, 1);
   }
+  speedboost(packet){
+    for(var index = 0; index < this.players.length;++index){
+      let player = this.players[index];
+      if(player.playerid == packet.PlayerId){
+        player.boosted = packet.Start;
+      }
+    }
+  }
   packethandler(packet) {
     switch (packet.PacketId) {
       case identifiers.kSelf: {
@@ -268,6 +287,10 @@ class Game {
         this.spawnobjective(packet);
 
       }
+        break;
+        case identifiers.kSpeedBoost:{
+          this.speedboost(packet);
+        }
         break;
     }
   }

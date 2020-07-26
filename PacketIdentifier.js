@@ -19,6 +19,8 @@ class PacketIdentifier{
         this.kServerTime = 16;
         this.kNameInitiate = 17;
         this.kNameRequest = 18;
+        this.kSpeedBoost = 19;
+        this.kRemoveTail = 20;
     }
 }
 /*

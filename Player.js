@@ -16,6 +16,7 @@ class Player{
         this.dxpos = 0;
         this.dypos = 0;
         this.name = "";
+        this.boosted = false;
     }
     addsegment(xpos,ypos,directon){
         this.body.push(new Segment(xpos,ypos,directon));
@@ -65,23 +66,28 @@ class Player{
         }
     }
     calculatesegmentposition(segment,delta){
+        let newspeed = this.speed;
+        if(this.boosted){
+            newspeed*=4;
+        }
         switch(segment.direction){
+
             case 0:{
-                this.dxpos+=this.speed*delta;
+                this.dxpos+=newspeed*delta;
             }
             break;
             case 1:{
-                this.dypos+=this.speed*delta;
+                this.dypos+=newspeed*delta;
 
             }
             break;
             case 2:{
-                this.dxpos-=this.speed*delta;
+                this.dxpos-=newspeed*delta;
 
             }
             break;
             case 3:{
-                this.dypos-=this.speed*delta;
+                this.dypos-=newspeed*delta;
 
             }
             break;
@@ -137,8 +143,19 @@ class Player{
         
         let head = this.getsegmenthead();
         this.calculatesegmentposition(this.body[0],delta);
-        head.xpos = this.interpolatemovement(head.xpos,this.dxpos,(this.speed)*delta);
-        head.ypos = this.interpolatemovement(head.ypos,this.dypos,(this.speed)*delta);
+        let newspeed = this.speed;
+
+        /*
+        CAREFUL WITH THE CODE BELOW 
+        IF GTHE SERVER AND CLIENT ARE RUNNING AT DIFFERENT FRAME RATES THIS WILL THROW SYNCHRONISATION OFF
+        BOTH CLIENT AND SERVER ARE RUNNING AT 30 FRAMES
+        */
+        if(this.boosted){
+            newspeed*=4;
+        }
+        head.xpos = this.interpolatemovement(head.xpos,this.dxpos,newspeed*delta);
+        head.ypos = this.interpolatemovement(head.ypos,this.dypos,newspeed*delta);
+
         if(this.isleftedge(head)){
             head.dxpos = 3999.0;
             head.xpos = 3999.0;
@@ -154,6 +171,18 @@ class Player{
         else if(this.isbottomedge(head)){
             head.dypos = 1.0;
             head.ypos = 1.0;
+        }
+        /*
+        CAREFUL WITH THE CODE BELOW 
+        IF GTHE SERVER AND CLIENT ARE RUNNING AT DIFFERENT FRAME RATES THIS WILL THROW SYNCHRONISATION OFF
+        BOTH CLIENT AND SERVER ARE RUNNING AT 30 FRAMES
+        */
+        if(this.boosted){
+            if(this.body.length>1){
+                this.body.pop();
+            }else{
+                this.boosted = false;
+            }
         }
     }
     draw(ctx){
