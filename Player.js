@@ -93,6 +93,30 @@ class Player{
         }
         return false;
     }
+    isleftedge(segment){
+        if(segment.xpos<=0){
+            return true;
+        }
+        return false;
+    }
+    istopedge(segment){
+        if(segment.ypos<=0){
+            return true;
+        }
+        return false;
+    }
+    isrightedge(segment){
+        if(segment.xpos>=4000){
+            return true;
+        }
+        return false;
+    }
+    isbottomedge(segment){
+        if(segment.ypos>=4000){
+            return true;
+        }
+        return false;
+    }
     update(ctx,delta){
         this.delta = delta;
         let now = performance.now();
@@ -115,14 +139,22 @@ class Player{
         this.calculatesegmentposition(this.body[0],delta);
         head.xpos = this.interpolatemovement(head.xpos,this.dxpos,(this.speed)*delta);
         head.ypos = this.interpolatemovement(head.ypos,this.dypos,(this.speed)*delta);
-        if(this.inbounds(head)){
-            
-        }else{
-
+        if(this.isleftedge(head)){
+            head.dxpos = 3999.0;
+            head.xpos = 3999.0;
         }
-        
-       //head.xpos = this.dxpos;
-       //head.ypos = this.dypos;
+        else if(this.istopedge(head)){
+            head.dypos = 3999.0;
+            head.ypos = 3999.0;
+        }
+        else if(this.isrightedge(head)){
+            head.dxpos = 1.0;
+            head.xpos = 1.0;
+        }
+        else if(this.isbottomedge(head)){
+            head.dypos = 1.0;
+            head.ypos = 1.0;
+        }
     }
     draw(ctx){
         
