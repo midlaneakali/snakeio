@@ -271,7 +271,7 @@ class Game {
       }
         break;
       case identifiers.kCollision: {
-        console.log("COLLISION");
+        //console.log("COLLISION");
         location.href = "index.html";
       }
         break;
